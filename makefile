@@ -21,12 +21,12 @@ LDFLAGS=$$(root-config --libs) \
 UNAME := $(shell uname -s)
 
 ifeq ($(UNAME), Darwin)
-  EXEC=demo-osx
+  EXEC=for_dana-osx
 else
-  EXEC=demo-linux
+  EXEC=for_dana-linux
 endif
 
-$(EXEC): demo.cc for_each_associated.hh for_each_entry.hh
+$(EXEC): for_dana.cc for_each_associated.hh for_each_entry.hh
 	@echo Building $(EXEC)
 	@$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS) -o $@ $<
 
