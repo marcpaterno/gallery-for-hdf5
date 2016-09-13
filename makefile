@@ -8,7 +8,7 @@ CPPFLAGS=-I $(BOOST_INC) \
          -I $(NUSIMDATA_INC) \
          -I $(ROOT_INC)
 
-CXXFLAGS=-std=c++14 -Wall -Werror -pedantic
+CXXFLAGS=-std=c++14 -Wall -Werror -Wextra -pedantic
 CXX=g++
 LDFLAGS=$$(root-config --libs) \
         -L $(CANVAS_LIB) -l canvas_Utilities -l canvas_Persistency_Common -l canvas_Persistency_Provenance \
@@ -26,7 +26,9 @@ else
   EXEC=for_dana-linux
 endif
 
-$(EXEC): for_dana.cc for_each_associated.hh for_each_entry.hh
+$(EXEC): for_dana.cc for_each_associated.hh for_each_entry.hh compare.hh compare.cc
 	@echo Building $(EXEC)
-	@$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS) -o $@ $<
+	@$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS) -o $@ $< compare.cc
 
+compare_assns_t: compare_assns_t.cc compare.hh compare.cc
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS) -o $@ $< compare.cc
