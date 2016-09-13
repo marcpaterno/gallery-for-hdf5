@@ -26,7 +26,7 @@ int main() {
   // A newly-constructed gallery::Event is at the start if its stream.
   // Use gallery::Event::atEnd() to check if you've reached the end of the stream.
   // Use gallery::Event::next() to go to the next event.
-  
+
   for (gallery::Event ev(filenames); !ev.atEnd(); ev.next()) {
     // getValidHandle() is preferred to getByLabel(), for both art and
     // gallery use. It does not require in-your-face error handling.
