@@ -31,6 +31,24 @@ int main() {
   }
   auto assns2 = assns1;
   auto assnsD2 = assnsD1;
+  // Equality works.
   assert(assns1 == assns2);
+  assert(assnsD1 == assnsD2);
+  // Inequality due to size.
+  assns2.addSingle({}, {});
   assert(assns1 != assns2);
+  assnsD2.addSingle({}, {}, {});
+  assert(assnsD1 != assnsD2);
+  // Inequality due to member value.
+  assns2 = assns1;
+  assert(assns1 == assns2);
+  const_cast<Ptr<A>&>(assns2[assns2.size() -1].first) = Ptr<A> { };
+  assert(assns1 != assns2);
+  assnsD2 = assnsD1;
+  assert(assnsD1 == assnsD2);
+  const_cast<Ptr<A>&>(assnsD2[assnsD2.size() -1].first) = Ptr<A> { };
+  assert(assnsD1 != assnsD2);
+  assnsD2 = assnsD1;
+  assert(assnsD1 == assnsD2);
+  const_cast<D &>(assnsD2.data(assnsD2.size() - 1)) = {};
 }
