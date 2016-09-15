@@ -1,4 +1,3 @@
-#include "InitRootHandlers.h"
 #include "compare.hh"
 #include "canvas/Persistency/Common/Ptr.h"
 
