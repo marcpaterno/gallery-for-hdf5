@@ -1,5 +1,6 @@
 .PHONY: all test clean
 
+OFLAGS = $(if $(DEBUG),-O0 -g,-O3 -fno-omit-frame-pointer -g)
 export CPPFLAGS = -I$(BOOST_INC) \
   -I$(CANVAS_INC) \
   -I$(CETLIB_INC) \
@@ -10,7 +11,7 @@ export CPPFLAGS = -I$(BOOST_INC) \
   -I$(NUSIMDATA_INC) \
   -I$(ROOT_INC)
 
-export CXXFLAGS = -fPIC -std=c++14 -Wall -Werror -Wextra -pedantic
+export CXXFLAGS = -fPIC -std=c++14 -Wall -Werror -Wextra -pedantic $(OFLAGS)
 export CXX = g++
 export LDFLAGS = $$(root-config --libs) \
   -L$(CANVAS_LIB) -lcanvas_Utilities -lcanvas_Persistency_Common -lcanvas_Persistency_Provenance \
@@ -40,7 +41,7 @@ libgallery-demo.so: compare.o
 
 clean:
 	@$(MAKE) -C test clean
-	-@$(RM) compare.o libgallery-demo.so $(EXEC)
+	-@$(RM) compare.o libgallery-demo.so $(EXEC).o $(EXEC)
 
 test: all
 	@$(MAKE) -C test
