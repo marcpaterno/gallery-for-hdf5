@@ -3,7 +3,6 @@
 *.pyc
 *.pdf
 .RData
-demo-linux
-demo-osx
-compare_assns_t
-for_dana-*
+for_dana
+compare.o
+libgallery-demo.so

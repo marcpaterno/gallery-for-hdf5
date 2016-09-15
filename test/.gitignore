@@ -1,0 +1,6 @@
+compare_assns_t
+libtest_dict.rootmap
+libtest_dict.so
+libtest_dict_rdict.pcm
+test_dict.cpp
+test_dict.o

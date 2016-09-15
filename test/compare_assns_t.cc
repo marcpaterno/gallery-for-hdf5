@@ -1,4 +1,5 @@
 #include "compare.hh"
+#include "compare_assns_t.hh"
 #include "canvas/Persistency/Common/Ptr.h"
 
 #include <cassert>
@@ -8,27 +9,9 @@
 
 using namespace art;
 
-struct A { int a; };
-struct B { double b; };
-struct D { std::string d; };
-
-namespace {
-  struct RootErrorHandlerSentry {
-    RootErrorHandlerSentry(bool reset) {
-      art::setRootErrorHandler(reset);
-    }
-    ~RootErrorHandlerSentry() {
-      SetErrorHandler(DefaultErrorHandler);
-    }
-  };
-
-} // namespace
-
 int main() {
+  using namespace gdtest;
   using namespace std::string_literals;
-
-  RootErrorHandlerSentry rootSentry(true);
-  art::completeRootHandlers();
 
   Assns<A, B> assns1;
   Assns<A, B, D> assnsD1;

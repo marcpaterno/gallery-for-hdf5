@@ -1,34 +1,42 @@
-CPPFLAGS=-I $(BOOST_INC) \
-         -I $(CANVAS_INC) \
-         -I $(CETLIB_INC) \
-         -I $(FHICLCPP_INC) \
-         -I $(GALLERY_INC) \
-         -I $(LARCOREOBJ_INC) \
-         -I $(LARDATAOBJ_INC) \
-         -I $(NUSIMDATA_INC) \
-         -I $(ROOT_INC)
+.PHONY: all test clean
 
-CXXFLAGS=-std=c++14 -Wall -Werror -Wextra -pedantic
-CXX=g++
-LDFLAGS=$$(root-config --libs) \
-        -L $(CANVAS_LIB) -l canvas_Utilities -l canvas_Persistency_Common -l canvas_Persistency_Provenance \
-        -L $(CETLIB_LIB) -l cetlib \
-        -L $(GALLERY_LIB) -l gallery \
-        -L $(NUSIMDATA_LIB) -l nusimdata_SimulationBase \
-        -L $(LARCOREOBJ_LIB) -l larcoreobj_SummaryData \
-        -L $(LARDATAOBJ_LIB) -l lardataobj_RecoBase
+export CPPFLAGS = -I$(BOOST_INC) \
+  -I$(CANVAS_INC) \
+  -I$(CETLIB_INC) \
+  -I$(FHICLCPP_INC) \
+  -I$(GALLERY_INC) \
+  -I$(LARCOREOBJ_INC) \
+  -I$(LARDATAOBJ_INC) \
+  -I$(NUSIMDATA_INC) \
+  -I$(ROOT_INC)
 
-UNAME := $(shell uname -s)
+export CXXFLAGS = -fPIC -std=c++14 -Wall -Werror -Wextra -pedantic
+export CXX = g++
+export LDFLAGS = $$(root-config --libs) \
+  -L$(CANVAS_LIB) -lcanvas_Utilities -lcanvas_Persistency_Common -lcanvas_Persistency_Provenance \
+  -L$(CETLIB_LIB) -lcetlib \
+  -L$(GALLERY_LIB) -lgallery \
+  -L$(NUSIMDATA_LIB) -lnusimdata_SimulationBase \
+  -L$(LARCOREOBJ_LIB) -llarcoreobj_SummaryData \
+  -L$(LARDATAOBJ_LIB) -llardataobj_RecoBase
 
-ifeq ($(UNAME), Darwin)
-  EXEC=for_dana-osx
-else
-  EXEC=for_dana-linux
-endif
+LIB := libgallery-demo.so
+OBJECTS := compare.o
+EXEC := for_dana
 
-$(EXEC): for_dana.cc for_each_associated.hh for_each_entry.hh compare.hh compare.cc
-	@echo Building $(EXEC)
-	@$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS) -o $@ $< compare.cc
+all : $(EXEC)
 
-compare_assns_t: compare_assns_t.cc compare.hh compare.cc
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS) -o $@ $< compare.cc
+$(EXEC) : % : %.cc for_each_associated.hh for_each_entry.hh compare.hh $(LIB)
+	@echo Building $(@)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS) $(LIB) -o $@ $<
+
+libgallery-demo.so: compare.o
+	@echo Building $(@)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS) -fPIC -shared -o $(@) $(^) 
+
+clean:
+	@$(MAKE) -C test clean
+	-@$(RM) compare.o libgallery-demo.so $(EXEC)
+
+test: all
+	@$(MAKE) -C test
