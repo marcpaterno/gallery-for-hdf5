@@ -4,5 +4,5 @@
 *.pdf
 .RData
 for_dana
-compare.o
-libgallery-demo.so
+*.o
+*.so

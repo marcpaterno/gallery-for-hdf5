@@ -26,9 +26,13 @@ EXEC := for_dana
 
 all : $(EXEC)
 
-$(EXEC) : % : %.cc for_each_associated.hh for_each_entry.hh compare.hh $(LIB)
+for_dana.o : for_each_associated.hh for_each_entry.hh compare.hh
+
+$(EXEC) : % : %.o $(LIB)
 	@echo Building $(@)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS) $(LIB) -o $@ $<
+
+compare.o : compare.hh
 
 libgallery-demo.so: compare.o
 	@echo Building $(@)
