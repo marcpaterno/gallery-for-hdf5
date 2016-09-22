@@ -1,4 +1,6 @@
-TESTS := compare_assns_t compare_vertex_t compare_cluster_t
+TESTS := compare_assns_t compare_vertex_t compare_cluster_t \
+         compare_hit_t compare_hitcoll_t compare_trajectory_t \
+         compare_particle_t compare_neutrino_t compare_truth_t
 
 .PHONY: test clean $(foreach t,$(TESTS),test-$(t))
 
