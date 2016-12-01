@@ -10,7 +10,7 @@ test: $(foreach t,$(TESTS),test-$(t))
 
 $(foreach t,$(TESTS),test-$(t)) : test-% : %
 	@printf "Testing $(@) ... "
-	@LD_LIBRARY_PATH=.:..$${LD_LIBRARY_PATH:+:$${LD_LIBRARY_PATH}} $(^) && \
+	@LD_LIBRARY_PATH=.:..$${LD_LIBRARY_PATH:+:$${LD_LIBRARY_PATH}} ./$(^) && \
      echo "OK" || { echo "FAILED!"; false; }
 
 compare_assns_t.o : ../compare.hh compare_assns_t.hh
