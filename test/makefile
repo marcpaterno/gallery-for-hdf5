@@ -40,5 +40,5 @@ test_dict.cpp: classes.h classes_def.xml
    -o $(@)
 
 clean:
-	-@$(RM) libtest_dict_rdict.pcm test_dict.cpp test_dict.o libtest_dict.so libtest_dict.rootmap \
-          libtest_dict.so compare_assns_t.o compare_assns_t
+	-@$(RM) libtest_dict_rdict.pcm test_dict.cpp libtest_dict.so libtest_dict.rootmap *.o $(TESTS)
+	-@$(RM) -r *.dSYM

@@ -49,6 +49,7 @@ libgallery-demo.so: compare.o
 clean:
 	@$(MAKE) -C test clean
 	-@$(RM) compare.o libgallery-demo.so $(EXEC).o $(EXEC)
+	-@$(RM) -r *.dSYM
 
 test: all
 	@$(MAKE) -C test
