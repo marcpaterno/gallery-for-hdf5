@@ -6,3 +6,5 @@
 for_dana
 *.o
 *.so
+*.dSYM
+*.patch

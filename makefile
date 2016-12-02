@@ -11,6 +11,12 @@ export CPPFLAGS = -I$(BOOST_INC) \
   -I$(NUSIMDATA_INC) \
   -I$(ROOT_INC)
 
+comma = ,
+
+UNAME_S := $(shell uname -s)
+UNDEF_FLAG = $(if $(filter Darwin,$(UNAME_S)),-Wl$(comma)-undefined$(comma)error,-Wl$(comma)--no-undefined)
+export DYN_LIB_PATH = $(if $(filter Darwin,$(UNAME_S)),DY,)LD_LIBRARY_PATH
+
 export CXXFLAGS = -fPIC -std=c++14 -Wall -Werror -Wextra -pedantic $(OFLAGS)
 export CXX = g++
 export LDFLAGS = $$(root-config --libs) \
@@ -19,7 +25,8 @@ export LDFLAGS = $$(root-config --libs) \
   -L$(GALLERY_LIB) -lgallery \
   -L$(NUSIMDATA_LIB) -lnusimdata_SimulationBase \
   -L$(LARCOREOBJ_LIB) -llarcoreobj_SummaryData \
-  -L$(LARDATAOBJ_LIB) -llardataobj_RecoBase
+  -L$(LARDATAOBJ_LIB) -llardataobj_RecoBase \
+  $(UNDEF_FLAG)
 
 LIB := libgallery-demo.so
 OBJECTS := compare.o
