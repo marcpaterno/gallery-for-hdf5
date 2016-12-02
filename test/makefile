@@ -29,9 +29,12 @@ $(TESTS): % : %.o
 	@echo Building $(@)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS) -o $@ $(^)
 
+comma = ,
+
 libtest_dict.so: test_dict.o ../libgallery-demo.so
 	@echo Building $(@)
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS) -fPIC -shared -o $@ $^ -L $(ROOTSYS)/lib -lCore -Wl,-rpath-link,..
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS) -fPIC -shared -o $@ $^ -L $(ROOTSYS)/lib -lCore \
+$(if $(filter Darwin,$(UNAME_S)),,-Wl$(comma)-rpath-link$(comma)..)
 
 test_dict.cpp: classes.h classes_def.xml
 	@echo Generating $(@)

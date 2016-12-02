@@ -13,9 +13,10 @@ export CPPFLAGS = -I$(BOOST_INC) \
 
 comma = ,
 
-UNAME_S := $(shell uname -s)
-UNDEF_FLAG = $(if $(filter Darwin,$(UNAME_S)),-Wl$(comma)-undefined$(comma)error,-Wl$(comma)--no-undefined)
+export UNAME_S := $(shell uname -s)
 export DYN_LIB_PATH = $(if $(filter Darwin,$(UNAME_S)),DY,)LD_LIBRARY_PATH
+
+UNDEF_FLAG = $(if $(filter Darwin,$(UNAME_S)),-Wl$(comma)-undefined$(comma)error,-Wl$(comma)--no-undefined)
 
 export CXXFLAGS = -fPIC -std=c++14 -Wall -Werror -Wextra -pedantic $(OFLAGS)
 export CXX = g++
