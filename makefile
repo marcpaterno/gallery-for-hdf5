@@ -37,10 +37,16 @@ CXXFLAGS=-std=c++14 -O3 -Wall -Werror -pedantic
 # established by the UPS products we've set up.
 CXX=g++
 
+all: demo
+
 # Here's how we build the demo program.
-demo: demo.cc for_each_associated.hh for_each_entry.hh
+demo: demo.cc analyze.o
 	@echo Building $@
-	@$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS) -o $@ $<
+	@$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS) -o $@ $< analyze.o
+
+analyze.o: analyze.cc analyze.hh
+	@echo Compiling $@
+	@$(CXX) -c $(CPPFLAGS) $(CXXFLAGS) -o $@ $<
 
 clean:
 	rm -f *.o
